@@ -2,7 +2,7 @@ import { StarRating } from "src/components/StarRating";
 import { Button } from "src/components/ui/Button";
 import ShinyBorderContainer from "src/components/ui/ShinyBorderContainer";
 
-import { getPriceLevel } from "../lib/utils";
+import { getPriceLevel } from "@/lib/utils";
 
 export default function ProductCard({ store, productName, description, price, ratings, imageSrc }) {
   return (

@@ -1,3 +1,5 @@
+import { Search } from 'lucide-react';
+
 function FoodIconSvg() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 110 109" className="size-20">
@@ -44,4 +46,5 @@ export const Icons = {
   food: FoodIconSvg,
   beverage: BeverageIconSvg,
   milk: MilkIconSvg,
+  search: Search
 };

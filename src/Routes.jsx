@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { HomePage } from "./pages";
+import { HomePage, ProductsPage } from "@/pages";
 
 const ROUTE_MAP = {
   HomePage: "/",
@@ -10,7 +10,7 @@ function RoutingComponent() {
   return (
     <Routes>
       <Route path={ROUTE_MAP.HomePage} element={<HomePage />} />
-      <Route path={ROUTE_MAP.Products} element={<h1>products page</h1>} />
+      <Route path={ROUTE_MAP.Products} element={<ProductsPage />} />
     </Routes>
   );
 }
