@@ -2,14 +2,14 @@ import { StarRating } from "src/components/StarRating";
 import { Button } from "src/components/ui/Button";
 import ShinyBorderContainer from "src/components/ui/ShinyBorderContainer";
 
-import { getPriceLevel } from "@/lib/utils";
+import { cn, getPriceLevel } from "@/lib/utils";
 
-export default function ProductCard({ store, productName, description, price, ratings, imageSrc }) {
+function ProductCard({ store, productName, description, price, ratings, imageSrc }) {
   return (
     <ShinyBorderContainer>
       <div className="flex items-center space-x-8">
         <div className="h-52 w-36">
-          <img src={imageSrc} alt={productName} className="h-full w-full" />
+          <img src={imageSrc} alt={productName} className="h-full w-full object-contain" />
         </div>
 
         <div className="flex flex-col">
@@ -27,5 +27,23 @@ export default function ProductCard({ store, productName, description, price, ra
         ${price.toFixed(2)}
       </Button>
     </ShinyBorderContainer>
+  );
+}
+
+export default function ProductGrid({ className, products }) {
+  return (
+    <div className={cn("mt-8 grid grid-cols-3  gap-8", className)}>
+      {products.map((product, index) => (
+        <ProductCard
+          key={index}
+          store={product.shop}
+          productName={product.name}
+          description={product.description || "Lactose Free Fat Free Ultra Filtered Milk, 52 fl oz"}
+          price={product.price}
+          ratings={product.ratings || 3}
+          imageSrc={product.imageSrc || "/product.png"}
+        />
+      ))}
+    </div>
   );
 }

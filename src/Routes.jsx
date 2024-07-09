@@ -3,14 +3,16 @@ import { HomePage, ProductsPage } from "@/pages";
 
 const ROUTE_MAP = {
   HomePage: "/",
-  Products: "/products"
+  Products: "/products",
 };
 
 function RoutingComponent() {
   return (
     <Routes>
       <Route path={ROUTE_MAP.HomePage} element={<HomePage />} />
-      <Route path={ROUTE_MAP.Products} element={<ProductsPage />} />
+      <Route path={ROUTE_MAP.Products} element={<ProductsPage />}>
+        <Route path=':productName' element={<ProductsPage/> } />
+      </Route>
     </Routes>
   );
 }
