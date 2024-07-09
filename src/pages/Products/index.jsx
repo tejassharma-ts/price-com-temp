@@ -16,8 +16,8 @@ export default function ProductsPage() {
   useEffect(() => {
     async function getProducts() {
       try {
-        const res = await api.get("/price", {
-          q: product,
+        const res = await api.get("/price/", {
+          params: { q: product },
         });
         setSearchedProducts(res.data);
       } catch (err) {
@@ -30,13 +30,13 @@ export default function ProductsPage() {
 
   return (
     <Container className="my-16">
-      <div className="flex items-center justify-between">
+      <div className="flex justify-between items-center">
         <SectionHeading title="category" subTitle="Browser by Category" />
 
         <div className="mt-4 flex max-w-sm items-center space-x-2 overflow-hidden rounded-lg bg-[#018080] pr-2">
           <Input
             placeholder="Search products..."
-            className="rounded-none rounded-br-full rounded-tr-full"
+            className="rounded-none rounded-tr-full rounded-br-full"
             value={product}
             onChange={() => {
               setProduct(event.target.value);

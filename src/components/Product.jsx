@@ -8,15 +8,15 @@ function ProductCard({ store, productName, description, price, ratings, imageSrc
   return (
     <ShinyBorderContainer>
       <div className="flex items-center space-x-8">
-        <div className="h-52 w-36">
-          <img src={imageSrc} alt={productName} className="h-full w-full object-contain" />
+        <div className="w-36 h-52">
+          <img src={imageSrc} alt={productName} className="object-contain w-full h-full" />
         </div>
 
         <div className="flex flex-col">
-          <h2 className="text-lg font-semibold uppercase">{store}</h2>
-          <p className="mb-3 mt-1 text-base font-medium">{productName}</p>
-          <p>{description}</p>
-          <div className="mt-4 flex items-center space-x-2 text-xs">
+          <h2 className="text-lg font-semibold uppercase"> {productName}</h2>
+          <p className="mt-1 mb-3 text-base font-medium">{store}</p>
+          {/* <p>{description}</p> */}
+          <div className="flex items-center mt-4 space-x-2 text-xs">
             <StarRating ratings={ratings} />
             <span className="font-semibold">({ratings})</span>
           </div>
@@ -32,7 +32,7 @@ function ProductCard({ store, productName, description, price, ratings, imageSrc
 
 export default function ProductGrid({ className, products }) {
   return (
-    <div className={cn("mt-8 grid grid-cols-3  gap-8", className)}>
+    <div className={cn("grid grid-cols-3 gap-8 mt-8", className)}>
       {products.map((product, index) => (
         <ProductCard
           key={index}
