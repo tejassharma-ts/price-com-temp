@@ -65,10 +65,10 @@ export default function HomePage() {
           </div>
         </section>
       </div>
-      <Container>
+      {/* <Container>
         <Section>
           <SectionHeading title="category" subTitle="Browser by Category" />
-          <div className="mt-8 flex justify-between gap-x-20">
+          <div className="flex gap-x-20 justify-between mt-8">
             {cards.map((label, index) => (
               <Card key={index} label={label} iconName={label.toLowerCase()} />
             ))}
@@ -78,8 +78,7 @@ export default function HomePage() {
           <SectionHeading title="Popular" subTitle="Products" />
           <ProductGrid products={products} />
         </Section>
-      </Container>
+      </Container> */}
     </main>
   );
 }
-
