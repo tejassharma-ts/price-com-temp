@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 // import { products } from "@/data";
 
 import { cn } from "@/lib/utils";
+import { api, useApiStore } from "@/models/api";
 
 function Card({ label, iconName }) {
   const Icon = Icons[iconName];
@@ -38,6 +39,7 @@ export default function HomePage() {
   }
 
   const [searchedProducts, setSearchedProducts] = useState([]);
+  const { loading } = useApiStore();
 
   useEffect(() => {
     async function getProducts() {
@@ -51,51 +53,53 @@ export default function HomePage() {
       }
     }
 
-    getProducts();
+    !loading && !searchedProducts.length && getProducts();
   }, []);
 
   return (
     <main>
-      <div className="min-h-screen">
-        <section className="flex h-screen flex-col items-center p-2">
-          <div className="relative h-full w-full overflow-hidden rounded-lg bg-[#018080]/50">
-            <Container className="grid grid-cols-2 pt-40 text-neutral-950">
-              <div>
-                <h1 className="mb-4 text-8xl font-black leading-[1.1]">
-                  What are you <br /> looking for?
-                </h1>
-                <p className="text-base">Compare thousands of Milk and Food products</p>
-                <form onSubmit={onSubmitHandler}>
-                  <div className="mt-4 flex max-w-sm items-center space-x-2 overflow-hidden rounded-lg bg-[#018080] pr-2">
-                    <Input
-                      placeholder="Search products..."
-                      className="rounded-none rounded-br-full rounded-tr-full"
-                      onChange={onChangeHandler}
-                    />
-                    <button type="submit" onClick={onSubmitHandler}>
-                      <Icons.search className="size-7 stroke-white" />
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </Container>
-          </div>
-        </section>
-      </div>
-      <Container>
-        <Section>
+      {
+        <div className="max-h-screen min-h-[60vh]">
+          <section className="flex h-full flex-col items-center p-2">
+            <div className="relative h-full w-full overflow-hidden rounded-lg bg-[#018080]/50 px-8 py-16">
+              <Container className="grid grid-cols-2 pt-40 text-neutral-950">
+                <div className="w-full">
+                  <h1 className="mb-4 text-8xl font-black leading-[1.1]">
+                    What are you <br /> looking for?
+                  </h1>
+                  <p className="text-base">Compare thousands of Milk and Food products</p>
+                  <form onSubmit={onSubmitHandler}>
+                    <div className="mt-4 flex max-w-sm items-center space-x-2 overflow-hidden rounded-lg bg-[#018080] pr-2">
+                      <Input
+                        placeholder="Search products..."
+                        className="rounded-none rounded-br-full rounded-tr-full"
+                        onChange={onChangeHandler}
+                      />
+                      <button type="submit" onClick={onSubmitHandler}>
+                        <Icons.search className="size-7 stroke-white" />
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </Container>
+            </div>
+          </section>
+          <Container>
+            {/* <Section>
           <SectionHeading title="category" subTitle="Browser by Category" />
           <div className="mt-8 flex justify-between gap-x-20">
             {cards.map((label, index) => (
               <Card key={index} label={label} iconName={label.toLowerCase()} />
             ))}
           </div>
-        </Section>
-        <Section>
-          <SectionHeading title="Popular" subTitle="Products" />
-          <ProductGrid products={searchedProducts} />
-        </Section>
-      </Container>
+        </Section> */}
+            <Section>
+              <SectionHeading title="Popular" subTitle="Products" />
+              <ProductGrid products={searchedProducts} />
+            </Section>
+          </Container>
+        </div>
+      }
     </main>
   );
 }

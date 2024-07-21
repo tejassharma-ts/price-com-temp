@@ -3,6 +3,7 @@ import { Button } from "src/components/ui/Button";
 import ShinyBorderContainer from "src/components/ui/ShinyBorderContainer";
 
 import { cn, getPriceLevel } from "@/lib/utils";
+import { useApiStore } from "@/models/api";
 
 function ProductCard({ store, productName, description, price, ratings, imageSrc, link }) {
   return (
@@ -32,21 +33,33 @@ function ProductCard({ store, productName, description, price, ratings, imageSrc
   );
 }
 
-export default function ProductGrid({ className, products }) {
+export default function ProductGrid({ className, products, isLoading }) {
+  const { loading } = useApiStore();
+
   return (
-    <div className={cn("mt-8 grid grid-cols-3 gap-8", className)}>
-      {products.map((product, index) => (
-        <ProductCard
-          key={index}
-          store={product.shop}
-          productName={product.name}
-          description={product.description || "Lactose Free Fat Free Ultra Filtered Milk, 52 fl oz"}
-          price={product.price}
-          ratings={product.ratings || 3}
-          link={product.link}
-          imageSrc={product.image || "/product.png"}
-        />
-      ))}
+    <div className={cn("mt-8 grid gap-8 px-8 sm:grid-cols-2 md:grid-cols-3", className)}>
+      {loading
+        ? Array.from({ length: 6 }, (_, index) => index + 1).map((_, idx) => (
+            <div className="skeleton-box h-full w-full" />
+          ))
+        : products.map((product, index) =>
+            loading ? (
+              <div className="skeleton-box h-full w-full" />
+            ) : (
+              <ProductCard
+                key={index}
+                store={product.shop}
+                productName={product.name}
+                description={
+                  product.description || "Lactose Free Fat Free Ultra Filtered Milk, 52 fl oz"
+                }
+                price={product.price}
+                ratings={product.ratings || 3}
+                link={product.link}
+                imageSrc={product.image || "/product.png"}
+              />
+            ),
+          )}
     </div>
   );
 }

@@ -6,27 +6,30 @@ import ProductGrid from "@/components/Product";
 import { Icons } from "@/components/ui/Icons";
 import { Input } from "@/components/ui/input";
 import { useEffect } from "react";
-import { api } from "@/models/api";
+import { api, useApiStore } from "@/models/api";
 
 export default function ProductsPage() {
   const { productName } = useParams();
   const [product, setProduct] = useState(productName);
   const [searchedProducts, setSearchedProducts] = useState([]);
+  const { loading } = useApiStore();
+
+  async function getProducts() {
+    while (loading);
+
+    try {
+      const res = await api.get("/price/", {
+        params: { q: product },
+      });
+      setSearchedProducts(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   useEffect(() => {
-    async function getProducts() {
-      try {
-        const res = await api.get("/price/", {
-          params: { q: product },
-        });
-        setSearchedProducts(res.data);
-      } catch (err) {
-        console.error(err);
-      }
-    }
-
-    getProducts();
-  }, []);
+    !loading && getProducts();
+  }, [productName]);
 
   return (
     <Container className="my-16">
@@ -42,7 +45,12 @@ export default function ProductsPage() {
               setProduct(event.target.value);
             }}
           />
-          <button type="submit">
+          <button
+            type="submit"
+            disabled={loading}
+            onClick={getProducts}
+            className="disabled:cursor-progress disabled:opacity-25"
+          >
             <Icons.search className="size-7 stroke-white" />
           </button>
         </div>
