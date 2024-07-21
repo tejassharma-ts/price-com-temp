@@ -40,7 +40,7 @@ export default function ProductGrid({ className, products, isLoading }) {
     <div className={cn("mt-8 grid gap-8 px-8 sm:grid-cols-2 md:grid-cols-3", className)}>
       {loading
         ? Array.from({ length: 6 }, (_, index) => index + 1).map((_, idx) => (
-            <div className="skeleton-box h-full w-full" />
+            <div key={_} className="skeleton-box h-full w-full" />
           ))
         : products.map((product, index) =>
             loading ? (
