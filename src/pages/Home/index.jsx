@@ -7,7 +7,7 @@ import { Icons } from "@/components/ui/Icons";
 import ProductGrid from "@/components/Product";
 import SectionHeading from "@/components/SectionHeading";
 import { Input } from "@/components/ui/input";
-import { products } from "@/data";
+// import { products } from "@/data";
 
 import { cn } from "@/lib/utils";
 
@@ -23,7 +23,7 @@ function Card({ label, iconName }) {
 
 export default function HomePage() {
   const cards = ["Food", "Beverage", "Milk"];
-  const [product, setProduct] = useState("");
+  const [product, setProduct] = useState("milk");
   const navigate = useNavigate();
 
   function onChangeHandler(event) {
@@ -36,6 +36,23 @@ export default function HomePage() {
     console.log(event);
     navigate(`/products/${product}`);
   }
+
+  const [searchedProducts, setSearchedProducts] = useState([]);
+
+  useEffect(() => {
+    async function getProducts() {
+      try {
+        const res = await api.get("/price/", {
+          params: { q: product },
+        });
+        setSearchedProducts(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    getProducts();
+  }, []);
 
   return (
     <main>
@@ -65,10 +82,10 @@ export default function HomePage() {
           </div>
         </section>
       </div>
-      {/* <Container>
+      <Container>
         <Section>
           <SectionHeading title="category" subTitle="Browser by Category" />
-          <div className="flex gap-x-20 justify-between mt-8">
+          <div className="mt-8 flex justify-between gap-x-20">
             {cards.map((label, index) => (
               <Card key={index} label={label} iconName={label.toLowerCase()} />
             ))}
@@ -76,9 +93,9 @@ export default function HomePage() {
         </Section>
         <Section>
           <SectionHeading title="Popular" subTitle="Products" />
-          <ProductGrid products={products} />
+          <ProductGrid products={searchedProducts} />
         </Section>
-      </Container> */}
+      </Container>
     </main>
   );
 }

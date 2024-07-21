@@ -4,28 +4,30 @@ import ShinyBorderContainer from "src/components/ui/ShinyBorderContainer";
 
 import { cn, getPriceLevel } from "@/lib/utils";
 
-function ProductCard({ store, productName, description, price, ratings, imageSrc }) {
+function ProductCard({ store, productName, description, price, ratings, imageSrc, link }) {
   return (
     <ShinyBorderContainer>
-      <div className="flex items-center space-x-8">
-        <div className="h-52 w-36">
-          <img src={imageSrc} alt={productName} className="h-full w-full object-contain" />
-        </div>
+      <a href={link} target="_blank" rel="noopener noreferrer">
+        <div className="flex items-center space-x-8">
+          <div className="h-52 w-36">
+            <img src={imageSrc} alt={productName} className="h-full w-full object-contain" />
+          </div>
 
-        <div className="flex flex-col">
-          <h2 className="text-lg font-semibold uppercase"> {productName}</h2>
-          <p className="mb-3 mt-1 text-base font-medium">{store}</p>
-          {/* <p>{description}</p> */}
-          <div className="mt-4 flex items-center space-x-2 text-xs">
-            <StarRating ratings={ratings} />
-            <span className="font-semibold">({ratings})</span>
+          <div className="flex flex-col">
+            <h2 className="text-lg font-semibold uppercase"> {productName}</h2>
+            <p className="mb-3 mt-1 text-base font-medium">{store}</p>
+            {/* <p>{description}</p> */}
+            <div className="mt-4 flex items-center space-x-2 text-xs">
+              <StarRating ratings={ratings} />
+              <span className="font-semibold">({ratings})</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <Button className="w-full" priceLevel={getPriceLevel(price)}>
-        ${price.toFixed(2)}
-      </Button>
+        <Button className="w-full" priceLevel={getPriceLevel(price)}>
+          ${price.toFixed(2)}
+        </Button>
+      </a>
     </ShinyBorderContainer>
   );
 }
@@ -41,6 +43,7 @@ export default function ProductGrid({ className, products }) {
           description={product.description || "Lactose Free Fat Free Ultra Filtered Milk, 52 fl oz"}
           price={product.price}
           ratings={product.ratings || 3}
+          link={product.link}
           imageSrc={product.image || "/product.png"}
         />
       ))}
